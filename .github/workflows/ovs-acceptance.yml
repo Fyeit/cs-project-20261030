@@ -24,7 +24,7 @@ jobs:
           sudo systemctl start openvswitch-switch
       - name: Portable tests and shell syntax
         run: |
-          python3 -m unittest discover -s tests -v
+          python3 -m unittest discover -s tests -p 'test_ovs_acceptance.py' -v
           bash -n scripts/ovs_netns.sh
       - name: Build original programs
         run: make

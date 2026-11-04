@@ -13,7 +13,7 @@ sudo apt-get update
 sudo apt-get install -y build-essential python3 iproute2 openvswitch-switch
 sudo systemctl start openvswitch-switch
 make
-python3 -m unittest discover -s tests -v
+python3 -m unittest discover -s tests -p 'test_ovs_acceptance.py' -v
 bash -n scripts/ovs_netns.sh
 sudo bash scripts/ovs_netns.sh verify
 echo $?  # 必须在验收命令后立即查看
@@ -98,7 +98,7 @@ SIGKILL、系统断电、外部同时修改测试资源、命令创建资源后�
 6. 对失败路径做 Linux 实测：停止本次接收进程应失败；使专属 UDP 规则改为 drop 应失败；Ctrl+C 后应保存 FAIL 并清理。本地标准库测试只验证这些路径中的控制逻辑，不能替代系统级注入。
 7. 最后再开 PR，附代码、32 项验收结果、旧入口回归记录、环境版本和未验证范围。
 
-新增 GitHub Actions 工作流在 Ubuntu 上构建原 C 程序、运行标准库测试和真实 OVS 验收，并在失败时上传日志。工作流需推送后才能执行；本地存在 YAML 文件不代表 CI 已通过。
+新增 GitHub Actions 工作流在 Ubuntu 上构建原 C 程序、运行 OVS 标准库测试和真实 OVS 验收，并在失败时上传日志。单元测试按文件名限定发现范围，避免合入蓝牙扩展后意外导入需要 Paramiko 的双VM协调器。工作流需推送后才能执行；本地存在 YAML 文件不代表 CI 已通过。
 
 ## 本次验证范围
 
